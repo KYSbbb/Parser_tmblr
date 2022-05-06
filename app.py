@@ -1,38 +1,39 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template
 import requests
 from bs4 import BeautifulSoup
-import lxml
 from form import LinkForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '1'
 
 
-
 @app.route('/', methods=['GET', 'POST'])
-def MainPage():
-    return render_template('main_page.html', form=LinkForm)
-
-
-def user_link():
+def main_page():
+    #    test = get_total_likes(link='https://cyberglittter.tumblr.com/post/681523226739916800/glamxbrit')
     form = LinkForm()
+    if form.validate_on_submit():
+        linkk = LinkForm().data
+        linkkk = linkk.get("link_example")
+        return get_total_likes(linkkk)
+    return render_template('main_page.html', form=form)
 
 
-
-def get_total_likes():
-    dict = []
+def get_total_likes(link):
+    likes = []
     reque = requests.get(link).text
     soup = BeautifulSoup(reque, 'lxml')
     actions = soup.find('ol', class_='notes')
     posts = actions.find_all('span', class_='action')
-    for each in actions:
+    for each in posts:
         like = each.text
         validation = str.isascii(like)
         if validation == True:
-            dict.append(like)
-    return render_template('link_req.html', title='Likes')
-
+            likes.append(like)
+    get_likes = soup.find('div', class_='notecount').text
+    prepared_data = (likes[0] + "& " + likes[1] + "in total there is " + get_likes)
+    print(prepared_data)
+    return render_template('link_req.html', prepared_data=prepared_data)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

@@ -1,0 +1,22 @@
+{% extends "link_req.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <legend class="border-bottom mb-4">Put your link in</legend>
+            <div class="form-group">
+                {{ form.link_example.label(class="form-control-label") }}
+
+                {% if form.link_example.errors %}
+                    {{ form.link_example(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.link_example.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.link_example(class="form-control form-control-lg") }}
+                {% endif %}
+                <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+{% endblock content %}
