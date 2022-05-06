@@ -9,7 +9,6 @@ app.config['SECRET_KEY'] = '1'
 
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
-    #    test = get_total_likes(link='https://cyberglittter.tumblr.com/post/681523226739916800/glamxbrit')
     form = LinkForm()
     if form.validate_on_submit():
         linkk = LinkForm().data
