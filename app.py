@@ -28,7 +28,7 @@ def get_total_likes(link):
         validation = str.isascii(like)
         if validation == True:
             likes.append(like)
-    get_likes = soup.find('div', class_='notecount').text
+    get_likes = soup.find('div', class_='meta-item post-notes').text
     prepared_data = (likes[0] + "& " + likes[1] + "in total there is " + get_likes)
     print(prepared_data)
     return render_template('link_req.html', prepared_data=prepared_data)
